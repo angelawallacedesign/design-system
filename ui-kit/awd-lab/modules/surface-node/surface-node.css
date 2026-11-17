@@ -1,0 +1,234 @@
+.sn-surface-node {
+  position: relative;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  min-height: 80dvh;
+  pointer-events: none;
+  perspective: 1200px;
+  perspective-origin: 80% 50%;
+}
+
+.sn-surface-node__surface {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  width: 280px;
+  pointer-events: auto;
+  transform: translateY(-50%);
+  will-change: transform;
+}
+
+.sn-surface-node__motion {
+  transform-style: preserve-3d;
+  transform-origin: 60% 50%;
+  transition: transform 440ms cubic-bezier(0.22, 1, 0.36, 1);
+  touch-action: none;
+  will-change: transform;
+}
+
+.sn-surface-node.is-responding .sn-surface-node__motion {
+  transition-duration: 320ms;
+}
+
+/* Optional resting geometry layer. Pointer offsets remain on __motion.
+   Default uses the flat SVG; Left retains the authored projection;
+   Right mirrors the full original silhouette. */
+/* Pass perspective through the positioned wrapper only for opted-in variants. */
+.sn-surface-node[data-sn-orientation] .sn-surface-node__surface {
+  transform-style: preserve-3d;
+}
+
+.sn-surface-node__orientation {
+  display: inline-flex;
+  transform-style: preserve-3d;
+  transform: none;
+  transform-origin: 0 0;
+}
+
+.sn-surface-node__orientation[data-sn-orientation="right"] {
+  transform: scaleX(-1);
+  transform-origin: center;
+}
+
+.sn-surface-node[data-sn-orientation="right"] {
+  perspective-origin: 20% 50%;
+}
+
+.sn-surface-node[data-sn-orientation="right"] .sn-surface-node__motion {
+  transform-origin: 40% 50%;
+}
+
+.sn-surface-node .sn-surface-node__orientation [data-sn-flat] {
+  display: none;
+}
+
+.sn-surface-node__orientation[data-sn-orientation="default"] [data-sn-flat] {
+  display: block;
+}
+
+.sn-surface-node__orientation[data-sn-orientation="default"] [data-sn-face],
+.sn-surface-node__orientation[data-sn-orientation="default"] [data-sn-edge] {
+  display: none;
+}
+
+.sn-surface-node__content {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 0;
+  white-space: nowrap;
+  transform: translateZ(0);
+}
+
+.ai-lab img.sn-surface-node__face,
+.ai-lab img.sn-surface-node__edge {
+  display: inline-block;
+  flex: 0 0 auto;
+  height: auto;
+  max-height: 60vh;
+  border-radius: 0;
+  vertical-align: top;
+}
+
+.sn-surface-node__face {
+  filter:
+    brightness(calc(1 - var(--light-x, 0) * 0.15))
+    contrast(1.05);
+}
+
+.sn-surface-node__edge {
+  margin-left: -1px;
+  opacity: 0.6;
+  filter:
+    brightness(calc(1 + var(--light-x, 0) * 0.4))
+    contrast(1.1);
+  transition:
+    filter 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sn-surface-node.is-responding .sn-surface-node__edge {
+  opacity: 0.85;
+}
+
+.sn-surface-node__nodes {
+  position: relative;
+  inset: 0;
+  left: -350px;
+  z-index: 2;
+  width: 60dvw;
+  height: 80dvh;
+  padding: 0;
+  pointer-events: none;
+}
+
+.sn-surface-node__node {
+  position: absolute;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: var(--viz-color-accent);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: auto;
+  filter: drop-shadow(0 0 0 rgba(255, 79, 135, 0));
+  transform: var(--sn-node-position-transform, translate3d(0, 0, 0)) scale(1);
+  transition:
+    filter 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 320ms ease,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sn-surface-node__node.is-visible {
+  opacity: 0.7;
+}
+
+.sn-surface-node__node:hover,
+.sn-surface-node__node:focus {
+  opacity: 1;
+  transform: var(--sn-node-position-transform, translate3d(0, 0, 0)) scale(1.45);
+}
+
+.sn-surface-node.is-responding .sn-surface-node__node:not(.is-active) {
+  opacity: 0.4;
+}
+
+.sn-surface-node__node.is-active {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px rgba(255, 79, 135, 0.5));
+  transform: var(--sn-node-position-transform, translate3d(0, 0, 0)) scale(1.45);
+}
+
+.sn-surface-node__node:focus-visible {
+  outline: 2px solid var(--color-focus, #d7154d);
+  outline-offset: 3px;
+}
+
+.sn-surface-node__node::before {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: rgba(255, 79, 135, 0.15);
+  content: "";
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.sn-surface-node__node:hover::before,
+.sn-surface-node__node:focus::before,
+.sn-surface-node__node.is-active::before {
+  opacity: 1;
+}
+
+.sn-surface-node__node.is-active::before {
+  animation: sn-node-pulse 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes sn-node-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 0.15;
+    transform: scale(1.8);
+  }
+}
+
+@media (max-width: 768px) {
+  .sn-surface-node {
+    z-index: 1;
+  }
+
+  .sn-surface-node__nodes {
+    z-index: 3;
+  }
+
+  .sn-surface-node__surface {
+    top: 45%;
+    right: auto;
+    left: 50%;
+    margin-top: -140px;
+    margin-left: -140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sn-surface-node {
+    margin-top: -50px;
+  }
+
+  .sn-surface-node__surface {
+    left: 30%;
+    margin: 0;
+  }
+
+  .sn-surface-node__nodes {
+    left: -50px;
+  }
+}

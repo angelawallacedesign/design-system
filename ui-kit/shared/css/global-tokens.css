@@ -1,0 +1,103 @@
+:root,
+[data-theme="default"] {
+
+/* =========================
+   GLOBAL COLOR TOKENS \\ SHARED BY ALL PRODUCTS (DO NOT DUPLICATE INTO PRODUCT FOLDERS)
+   Initial move (to global state): 5/7/2026 (Big win)
+   *****!!! Product tokens live in product repos !!!*****
+   Shared folder hosted via Github pages: 6/27/26 (Another Big win)
+   Mapped to Figma 'AWD Design System 2': 9/13/26
+========================= */
+
+    /* Primary Brand Colors */
+    --color-primary: #000;  /* Core brand / text */
+    --color-secondary: #d9d9d9;  /* Neutral surfaces, dividers */
+    --color-accent:  #FA4D7E;  /* Emphasis / highlights */
+    --color-accent-highlight: #FFE7EE;
+    --color-accent-light: #FFD8E3;
+    --color-accent-light-stroke: #FFC6D7;
+    /* --color-secondary: #fff (update!) QA Apply Tracker first. release TBA */
+    /* --color-neutral: #D9D9D9 (new!) release TBA */
+
+    /* Interaction */
+    --color-focus:  #dd3353;  /* Focus rings, active states */
+    --color-control: #23CDCD;  /* Controls, affordances */
+    --color-disabled: #A7A7A7;
+
+    /* Frame + surfaces */
+    --color-frame: var(--color-primary);
+    --color-frame-default: #C3C3C3;
+    --color-frame-accent: var(--color-accent);
+    --color-frame-muted: var(--color-secondary);
+    --color-case-study-frame: #313131;
+    --color-surface: #fff;
+    --color-surface-muted: #F2F2F2;
+    --color-divider: #D9D9D9;
+
+    /* Text */
+    --color-text: #111;
+    --color-text-secondary: #686868;
+    --color-text-contrast: #fff;
+    --color-text-muted: #C3C3C3;
+
+    /* icons */
+    --color-icon: #565656;
+
+    /* Theme aliases
+       These mirror the authored AWD palette by default. Alternate themes only
+       override these variables, so existing component styles remain portable. */
+    --theme-bg: var(--color-surface);
+    --theme-surface: var(--color-surface);
+    --theme-surface-muted: var(--color-surface-muted);
+    --theme-text: var(--color-text);
+    --theme-text-muted: var(--color-text-muted);
+    --theme-divider: var(--color-divider);
+    --theme-frame: var(--color-frame);
+    --theme-accent: var(--color-accent);
+}
+
+html[data-theme="dark"],
+[data-theme="dark"] {
+    --color-primary: #ffffff;
+    --color-secondary: #233037;
+    --color-case-study-frame: #0b1113;
+    --color-surface: #0b1113;
+    --color-surface-muted: #172329;
+    --color-divider: #354148;
+    --color-text: #ffffff;
+    --color-text-contrast: #000000;
+    --color-text-muted: #bcc2c5;
+    --color-icon: #dce2e5;
+
+    --theme-bg: #0b1113;
+    --theme-surface: #121a1e;
+    --theme-surface-muted: #1b282e;
+    --theme-text: #ffffff;
+    --theme-text-muted: #bcc2c5;
+    --theme-divider: #354148;
+    --theme-frame: #233037;
+}
+
+html[data-theme="night"] {
+    --color-primary: #f1f6ff;
+    --color-secondary: #141a28;
+    --color-case-study-frame: #080b12;
+    --color-surface: #0c111d;
+    --color-surface-muted: #151d2c;
+    --color-divider: #273149;
+    --color-text: #f1f6ff;
+    --color-text-contrast: #07101e;
+    --color-text-muted: #9ca8c0;
+    --color-icon: #d9e4f8;
+
+    --theme-bg: #0c111d;
+    --theme-surface: #111827;
+    --theme-surface-muted: #182238;
+    --theme-text: #f1f6ff;
+    --theme-text-muted: #9ca8c0;
+    --theme-divider: #273149;
+    --theme-frame: #141a28;
+}
+
+/******** TO DO *********/
+/* Reason about body background color tokens (AW 5/8/26). Done 6/27/26. Surface can be panel bgs, theme bg is the page bg */
